@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Task;
+import model.Task.Status;
 
 public class TaskService {
 
@@ -11,15 +12,35 @@ public class TaskService {
   private int currentID = 1;
 
   // create a task
-  public Task createTask(String title, String description, String status, int priority) {
-    Task task = new Task(currentID++, title, description, status, priority);
+  public int createTask(String title, String description, int priority) {
+    Task task = new Task(currentID++, title, description, priority);
     tasks.add(task);
-    return task;
+    return task.getId(); // returning id so that we can prompt user to start this task(using id)
   }
 
   // see all available tasks
   public List<Task> getAllTasks() {
     return tasks;
+  }
+
+  // start a task (change status to IN_PROGRESS)
+  public boolean startTask(int id) {
+    Task task = getTaskByID(id);
+    if (task != null && task.getStatus() == Task.Status.PENDING) {
+      task.setStatus(Task.Status.IN_PROGRESS);
+      return true;
+    }
+    return false;
+  }
+
+  // when task in completed (change status to COMPLETED)
+  public boolean completeTask(int id) {
+    Task task = getTaskByID(id);
+    if (task != null && task.getStatus() == Task.Status.IN_PROGRESS) {
+      task.setStatus(Task.Status.COMPLETED);
+      return true;
+    }
+    return false;
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Approach I ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -52,7 +73,7 @@ public class TaskService {
 
     if (task != null) {
       task.setTitle(title);
-      task.setStatus(status);
+      task.setStatus(Status.PENDING);
       task.setPriority(priority);
       task.setDesription(description);
       return true;

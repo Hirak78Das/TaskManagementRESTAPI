@@ -12,13 +12,15 @@ public class Main {
 
     // Menu Options
     System.out.println("\n  ~~~~~~~~~~~~~~~~~ TASK MANAGEMENT ~~~~~~~~~~~~~~~~~");
-    System.out.println("                          Menu                         ");
-    System.out.println("                     1. Create Task");
-    System.out.println("                     2. View all Tasks");
-    System.out.println("                     3. Find task by ID");
-    System.out.println("                     4. update Task");
-    System.out.println("                     5. delete Task");
-    System.out.println("                     6. Exit");
+    System.out.println("\n             *              Menu                     *");
+    System.out.println("             *       1. Create Task                  *");
+    System.out.println("             *       2. View all Tasks               *");
+    System.out.println("             *       3. Find task by ID              *");
+    System.out.println("             *       4. update Task                  *");
+    System.out.println("             *       5. delete Task                  *");
+    System.out.println("             *       6. Start Task                   *");
+    System.out.println("             *       7. Complete Task                *");
+    System.out.println("             *       8. Exit                         *");
 
     while (true) {
       System.out.print("\n       choose an option : ");
@@ -32,12 +34,24 @@ public class Main {
           String title = sc.nextLine();
           System.out.print("  Enter description: ");
           String description = sc.nextLine();
-          System.out.print("  Enter status: ");
-          String status = sc.nextLine();
           System.out.print("  Enter priority (1=High, 2=Medium, 3=Low): ");
           int priority = sc.nextInt();
           sc.nextLine(); // Consume newline
-          taskService.createTask(title, description, status, priority);
+          int id = taskService.createTask(title, description, priority);
+
+          // ask user if they want to start the created task
+          System.out.println("\nDo you want to start the task (Y/N)");
+          String s = sc.nextLine();
+          if (s.equals("y") || s.equals("Y")) { // s == "y" is wrong, cuz for non-primitive like string, == operator
+                                                // checks if two string references points to the same object in the
+                                                // memory or not
+            // use == only for primitive type
+            started(id);
+            break;
+          } else if (s.equals("n") || s.equals("N")) {
+            break;
+          }
+          System.out.println("\n  invalid character!!");
           break;
         case 2:
           // display all tasks
@@ -48,9 +62,8 @@ public class Main {
           break;
         case 3:
           System.out.print("\n    Enter Task id:");
-          String s = sc.nextLine();
-          int id = Integer.parseInt(s);
-          Task taskId = taskService.getTaskByID(id);
+          int iD = Integer.parseInt(sc.nextLine());
+          Task taskId = taskService.getTaskByID(iD);
           if (taskId == null) {
             System.out.println("\n    wrong id!!");
             break;
@@ -84,6 +97,17 @@ public class Main {
 
           break;
         case 6:
+          // start task
+          System.out.print("\n   Enter task id : ");
+          started(sc.nextInt());
+          sc.nextLine(); // consume newline
+          break;
+        case 7:
+          // complete task
+          System.out.println("\n  Enter task id : ");
+          completed(Integer.parseInt(sc.nextLine()));
+          break;
+        case 8:
           return;
 
         default:
@@ -91,6 +115,25 @@ public class Main {
           break;
       }
     }
+
+  }
+
+  public static void started(int id) {
+    boolean started = taskService.startTask(id);
+    if (started) {
+      System.out.println("\n       Task id : " + id + "started");
+      return;
+    }
+    System.out.println("\n  wrong id. Please enter valid id to start the task. choose from the menu");
+  }
+
+  public static void completed(int id) {
+    boolean completed = taskService.completeTask(id);
+    if (completed) {
+      System.out.println("\n       Task id : " + id + "completed");
+      return;
+    }
+    System.out.println("\n  wrong id. Please enter valid id to complete the task. choose from the menu");
 
   }
 }
