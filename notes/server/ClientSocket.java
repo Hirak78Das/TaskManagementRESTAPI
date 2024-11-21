@@ -1,4 +1,5 @@
 
+// ~~~~~~~~~~~~~~~~~~~~~~ TCP request ~~~~~~~~~~~~~~~~~~~~
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -47,6 +48,7 @@ public class ClientSocket {
     // String to read message from input
     String line = "";
 
+    System.out.println("\n send your data to the server until you type 'Over' ");
     // keep reading until "Over" is input
     while (!line.equals("Over")) {
       try {

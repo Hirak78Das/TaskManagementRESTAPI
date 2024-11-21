@@ -36,7 +36,7 @@ public class Serversocket {
       System.out.println("Client accepted");
 
       // take the input which is sen by the client socket
-      in = new DataInputStream(socket.getInputStream());
+      in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
 
       String line = "";
 
