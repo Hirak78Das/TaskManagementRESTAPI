@@ -12,10 +12,12 @@ public class TaskService {
   private int currentID = 1;
 
   // create a task
-  public int createTask(String title, String description, int priority) {
+  public Task createTask(String title, String description, int priority) {
     Task task = new Task(currentID++, title, description, priority);
     tasks.add(task);
-    return task.getId(); // returning id so that we can prompt user to start this task(using id)
+    return task;
+    // return task.getId(); // returning id so that we can prompt user to start this
+    // task(using id)
   }
 
   // see all available tasks
@@ -67,7 +69,7 @@ public class TaskService {
    */
 
   // update a task
-  public boolean updateTask(int id, String title, String description, String status, int priority) {
+  public boolean updateTask(int id, String title, String description, int priority) {
 
     Task task = getTaskByID(id);
 
