@@ -1,23 +1,52 @@
+// ----- store data into the database server -------
+
 package service;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import database.DatabaseManager;
 import model.Task;
 import model.Task.Status;
 
 public class TaskService {
 
   private List<Task> tasks = new ArrayList<>();
-  private int currentID = 1;
+  // private int currentID;
 
   // create a task
   public Task createTask(String title, String description, int priority) {
-    Task task = new Task(currentID++, title, description, priority);
-    tasks.add(task);
-    return task;
-    // return task.getId(); // returning id so that we can prompt user to start this
-    // task(using id)
+
+    String sql = "INSERT INTO task (title, description, priority, status) VALUES (?, ?, ?, 'PENDING')";
+    try (
+        Connection connection = DatabaseManager.getConnection();
+        PreparedStatement pstmt = connection.prepareStatement(sql)) {
+      pstmt.setString(1, title);
+      pstmt.setString(2, description);
+      pstmt.setInt(3, priority);
+      pstmt.executeUpdate();
+
+      // fetch the auto gennerated id created by mysql, so that you can get any task
+      // later
+      // by using the id
+      try (Statement stmt = connection.createStatement();
+          ResultSet result = stmt.executeQuery("SELECT LAST_INSERT_ID()")) {
+        if (result.next()) { // result.next() checks each row if there is a column
+          int currentID = result.getInt(1); // the first column of that row
+          Task task = new Task(currentID, title, description, priority);
+          tasks.add(task);
+          return task;
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null; // if task in not created
   }
 
   // see all available tasks
