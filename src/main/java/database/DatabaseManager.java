@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DatabaseManager {
   private static final String BASE_URL = "jdbc:mysql://localhost:3306"; // to create the database use the BASE_URL
-  private static final String Database_name = "TaskManagementDB";
+  private static final String Database_name = "/TaskManagementDB";
   private static final String URL = BASE_URL + Database_name; // used this url after the database is created in mysql
   // server
 

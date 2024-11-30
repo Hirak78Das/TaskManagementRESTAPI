@@ -10,19 +10,30 @@ public class Task {
     COMPLETED
   }
 
+  public enum Priority {
+    LOW,
+    MEDIUM,
+    HIGH
+  }
+
   private int id; // unique id for each task
   private String title; // short title of the task
   private String description;
   private Status status; // declaring a variable of type Status to hold one of the constant, not making
                          // any instance here
-  private int priority; // E.g. 1 = High, 2 = Medium, 3 = Low
+  private Priority priority;
+  private String created_at;
+  private String updated_at;
 
-  public Task(int id, String title, String description, int priority) {
+  public Task(int id, String title, String description, Priority priority, Status status, String created_at,
+      String updated_at) {
     this.id = id;
     this.title = title;
     this.description = description;
     this.priority = priority;
-    this.status = Status.PENDING; // Default status on creation
+    this.status = status; // PENDING by default on database
+    this.created_at = created_at;
+    this.updated_at = updated_at;
   }
 
   //
@@ -58,18 +69,21 @@ public class Task {
     this.description = description;
   }
 
-  public int getPriority() {
+  public Priority getPriority() {
     return priority;
   }
 
   public void setPriority(int priority) {
-    this.priority = priority;
+    // this.priority = priority;
   }
 
   @Override
   public String toString() {
-    return "Task { " + "id = " + id + ", title = " + title + ", description = " + description + ", status = " + status
-        + ",priority = " + priority + " }";
+    return "Task : \n" + "     id = " + id + "\n     title = " + title + "\n     description = " + description
+        + "\n     status = "
+        + status
+        + "\n     priority = " + priority + "\n     created at = " + created_at + "\n     updated at = " + updated_at
+        + " \n";
   }
 
 }
