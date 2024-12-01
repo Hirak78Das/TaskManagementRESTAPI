@@ -9,7 +9,6 @@ public class DatabaseManager {
   private static final String Database_name = "/TaskManagementDB";
   private static final String URL = BASE_URL + Database_name; // used this url after the database is created in mysql
   // server
-
   private static final String USER = "root"; // mysql username
   private static final String PASSWORD = "Hirak_602223!"; // mysql PASSWORD
 
