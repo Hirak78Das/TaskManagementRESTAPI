@@ -42,6 +42,13 @@ Note: This project does not use Maven or Gradle for building the program. All de
 
 ### **Run Application**:
 
+To run the application:
+
+- **Start the server program in one terminal window --> after starting the server program, it continuously listens for client requests and responses accordingly**
+- **Open another terminal window to run the client program, which will communicate with the server to perform task management operations via http requests.**
+
+NOTE: Both the server and client programs must be running simultaneously to enable full functionality.
+
 1. ##### Clone the repository
 
 ```
@@ -74,3 +81,11 @@ java -cp lib/mysql-connector-j-9.1.0.jar:src/main/java/ CreateDatabase
 ```
 java -cp lib/mysql-connector-j-9.1.0.jar:src/main/java MainClient
 ```
+
+6. #### Start the server:
+
+   Open another terminal window and run the server program. This will host the backend service locally.
+
+   ```
+   java -cp lib/mysql-connector-j-9.1.0.jar:src/main/java httpServer/Server
+   ```
