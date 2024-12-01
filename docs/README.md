@@ -29,6 +29,8 @@ The primary purpose of this project is to learn and implement core backend devel
 
 Firstly, install these tools to run the program:
 
+Note: This project does not use Maven or Gradle for building the program. All dependencies are managed manually.
+
 - **Java 17 or higher**
   Download from the [Oracle Java Downloads page](https://www.oracle.com/java/technologies/downloads/).
 - **MySQL Server**
@@ -36,9 +38,8 @@ Firstly, install these tools to run the program:
 - **MySQL Connector JAR**
   Download the MySQL Connector JAR file to enable Java to connect to the MySQL server.
   Download from the [MySQL Connector/J page](https://dev.mysql.com/downloads/connector/j/). Choose the "Platform Independent" version.
-  Note: Delete the JAR file currently included in this project to avoid version conflicts.
 
-Note: This project does not use Maven or Gradle for building the program. All dependencies are managed manually.
+Note: Delete the JAR file currently included in this project to avoid version conflicts and put your jar file in the lib/.
 
 ### **Run Application**:
 
@@ -60,6 +61,12 @@ NOTE: Both the server and client programs must be running simultaneously to enab
 
 ```
 cd TaskManagementRESTAPI/
+```
+
+Enter your mysql username and password in this file and save the file:
+
+```
+nvim src/main/java/database/DatabaseManager.java
 ```
 
 3. ##### Compile the java files:
