@@ -58,13 +58,14 @@ cd TaskManagementRESTAPI/
 3. ##### Compile the java files:
 
 ```
-      javac -cp lib/mysql-connector-j-9.1.0.jar src/main/java/**/*.java
+javac -cp lib/mysql-connector-j-9.1.0.jar src/main/java/**/*.java
 ```
 
 4. ##### Create a database in your MySQL server:
    Run the CreateDatabase program:
 
-```java -cp lib/mysql-connector-j-9.1.0.jar:src/main/java/ CreateDatabase
+```
+java -cp lib/mysql-connector-j-9.1.0.jar:src/main/java/ CreateDatabase
 
 ```
 
