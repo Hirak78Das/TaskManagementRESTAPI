@@ -29,56 +29,53 @@ public class MainClient {
   public static void menu() {
 
     while (true) {
+
       System.out.print("\n       choose an option : ");
-      String input = sc.nextLine();
-      int choice = Integer.parseInt(input);
-      switch (choice) {
+      String input = null;
+      try {
+        input = sc.nextLine();
+        if (input.equals(null) || input.equals("")) {
+          System.out.println("\n   Input is empty!!");
+          continue;
+        }
+        int choice = Integer.parseInt(input);
 
-        case 1:
-          Menu.createTask(); // craete task and store in the database server
-          break;
+        if (choice < 1 || choice > 9) {
+          System.out.println("\n         choose between 1 - 9  🐷 ");
+          continue;
+        }
 
-        case 2:
-          Menu.FetchTasks(); // get the tasks from the server
-          break;
-
-        case 3:
-          // get task with specified id from server
-          Menu.FetchTaskWithId();
-          break;
-
-        case 4:
-          // update task
-          Menu.updateTask();
-          break;
-
-        case 5:
-          // delete task
-          Menu.DeleteTask();
-          break;
-
-        case 6:
-          // start task
-          Menu.StartTask();
-          break;
-
-        case 7:
-          // complete task
-          Menu.completeTask();
-          break;
-
-        case 8:
-          showMenu();
-          break;
-
-        case 9:
-          // exit
-          Menu.close();
-          return;
-
-        default:
-          System.out.println("\n         please enter no from 1 - 8  🐷 ");
-          break;
+        switch (choice) {
+          case 1:
+            Menu.createTask();
+            break;
+          case 2:
+            Menu.FetchTasks();
+            break;
+          case 3:
+            Menu.FetchTaskWithId();
+            break;
+          case 4:
+            Menu.updateTask();
+            break;
+          case 5:
+            Menu.DeleteTask();
+            break;
+          case 6:
+            Menu.StartTask();
+            break;
+          case 7:
+            Menu.completeTask();
+            break;
+          case 8:
+            showMenu();
+            break;
+          case 9:
+            Menu.close();
+            return;
+        }
+      } catch (NumberFormatException e) {
+        System.out.println("\n   Invalid input: '" + input + "'. Please enter a number between 1 and 9.");
       }
     }
   }
@@ -87,4 +84,5 @@ public class MainClient {
     showMenu();
     menu();
   }
+
 }

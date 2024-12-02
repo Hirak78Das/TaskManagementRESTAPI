@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Scanner;
 
 public class Menu {
@@ -100,8 +101,10 @@ public class Menu {
         return;
       }
 
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (SocketException s) {
+      System.out.println("\n      Connection refused!! The server might not have started");
+    } catch (IOException io) {
+      io.printStackTrace();
     }
     return;
   }
@@ -121,20 +124,22 @@ public class Menu {
       writer.println(request.toString());
 
       // Read the response from server
-
       String line = null;
       while ((line = reader.readLine()) != null) {
         System.out.println(line);
       }
+    } catch (SocketException s) {
+      System.out.println("\n     Socket error : " + s.getMessage());
     } catch (IOException io) {
-      io.printStackTrace();
+      System.out.println("\n     General I/O error : " + io.getMessage());
     }
   }
 
   // get task by id
   public static void FetchTaskWithId() {
-    System.out.print("\n    Enter Task id:");
-    int iD = Integer.parseInt(sc.nextLine());
+    System.out.print("\n    Enter Task id :");
+    int iD = ParseInteger.InputValidNumber();
+
     Task taskId = taskService.getTaskByID(iD);
     if (taskId == null) {
       System.out.println("\n    wrong id!!");
@@ -168,8 +173,10 @@ public class Menu {
       } else {
         System.out.println("Unexpected response: " + response);
       }
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (SocketException s) {
+      System.out.println("\n     Socket error : " + s.getMessage());
+    } catch (IOException io) {
+      System.out.println("\n     General I/O error : " + io.getMessage());
     }
   }
 
@@ -186,8 +193,7 @@ public class Menu {
       System.out.print("  Enter priority (1=High, 2=Medium, 3=Low): ");
       int priority = sc.nextInt();
       System.out.print("  Enter id of the task to be updated: ");
-      int ID = sc.nextInt();
-      sc.nextLine(); // Consume newline
+      int ID = ParseInteger.InputValidNumber();
 
       // create the request body(JSON format)
       String requestBody = String.format("""
@@ -218,8 +224,10 @@ public class Menu {
         System.out.println(line);
       }
 
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (SocketException s) {
+      System.out.println("\n     Socket error : " + s.getMessage());
+    } catch (IOException io) {
+      System.out.println("\n     General I/O error : " + io.getMessage());
     }
   }
 
@@ -228,9 +236,8 @@ public class Menu {
     try (Socket socket = new Socket("localhost", 8080);
         BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter writer = new PrintWriter(socket.getOutputStream(), true)) {
-      System.out.println("Enter the ID of the task you want to delete : ");
-      int id = Integer.parseInt(sc.nextLine());
-
+      System.out.println("  \nEnter the ID of the task you want to delete : ");
+      int id = ParseInteger.InputValidNumber();
       String Request = String.format("""
           DELETE /taskWithId/%d HTTP/1.1
           Host: localhost
@@ -242,8 +249,10 @@ public class Menu {
       while ((line = reader.readLine()) != null) {
         System.out.println(line);
       }
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (SocketException s) {
+      System.out.println("\n     Socket error : " + s.getMessage());
+    } catch (IOException io) {
+      System.out.println("\n     General I/O error : " + io.getMessage());
     }
 
   }
@@ -253,8 +262,8 @@ public class Menu {
     try (Socket socket = new Socket("localhost", 8080);
         BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter writer = new PrintWriter(socket.getOutputStream(), true)) {
-      System.out.println("Enter the ID of the task you want to start : ");
-      int id = Integer.parseInt(sc.nextLine());
+      System.out.print("\n   Enter the ID of the task you want to start : ");
+      int id = ParseInteger.InputValidNumber();
 
       String Request = String.format("""
           PUT /startTask/%d HTTP/1.1
@@ -266,8 +275,10 @@ public class Menu {
       while ((line = reader.readLine()) != null) {
         System.out.println(line);
       }
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (SocketException s) {
+      System.out.println("\n     Socket error : " + s.getMessage());
+    } catch (IOException io) {
+      System.out.println("\n     General I/O error : " + io.getMessage());
     }
 
   }
@@ -277,8 +288,8 @@ public class Menu {
     try (Socket socket = new Socket("localhost", 8080);
         BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter writer = new PrintWriter(socket.getOutputStream(), true)) {
-      System.out.println("Enter the ID of the task you want to complete : ");
-      int id = Integer.parseInt(sc.nextLine());
+      System.out.print("\n    Enter the ID of the task you want to complete : ");
+      int id = ParseInteger.InputValidNumber();
 
       String Request = String.format("""
           PUT /completeTask/%d HTTP/1.1
@@ -291,8 +302,10 @@ public class Menu {
       while ((line = reader.readLine()) != null) {
         System.out.println(line);
       }
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (SocketException s) {
+      System.out.println("\n     Socket error : " + s.getMessage());
+    } catch (IOException io) {
+      System.out.println("\n     General I/O error : " + io.getMessage());
     }
 
   }
@@ -313,9 +326,12 @@ public class Menu {
       writer.println(Request);
       writer.flush();
 
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (SocketException s) {
+      System.out.println("\n     server problem : " + s.getMessage());
+    } catch (IOException io) {
+      System.out.println("\n     General I/O error : " + io.getMessage());
     }
-    System.out.println("Goodbye 😸");
+
+    System.out.println("\n\n             Goodbye 😸");
   }
 }

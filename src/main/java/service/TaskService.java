@@ -43,7 +43,7 @@ public class TaskService {
 
       }
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.out.println("\n Database error: " + e.getMessage());
     }
     return null; // if task in not created
   }
@@ -58,6 +58,7 @@ public class TaskService {
       }
     } catch (SQLException e) {
       e.printStackTrace();
+      System.out.println("\n Database error: " + e.getMessage());
     }
     return List.of();
   }
@@ -72,13 +73,15 @@ public class TaskService {
           // make IN_PROGRESS in the database
           Queries.Updatestatus(id);
           return 1;
-        } else if (task.getId() == id && task.getStatus() == Task.Status.COMPLETED) {
+        } else if (task.getId() == id && task.getStatus() == Task.Status.IN_PROGRESS) {
           return 2;
+        } else if (task.getId() == id && task.getStatus() == Task.Status.COMPLETED) {
+          return 3;
         }
       }
 
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.out.println("\n Database error: " + e.getMessage());
     }
     return -1;
   }
@@ -99,7 +102,7 @@ public class TaskService {
         }
       }
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.out.println("\n   Database error: " + e.getMessage());
     }
     return -1; // if id is not found
   }
@@ -115,7 +118,7 @@ public class TaskService {
         return task;
       }
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.out.println("\n   Database error: " + e.getMessage());
     }
     return null; // need to handle this null value by caller
   }
@@ -143,7 +146,8 @@ public class TaskService {
         return true;
       }
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.out.println("\n   Database error: " + e.getMessage());
+
     }
     return false;
   }
@@ -158,7 +162,8 @@ public class TaskService {
         return true;
       }
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.out.println("\n   Database error: " + e.getMessage());
+
     }
     return false;
   }

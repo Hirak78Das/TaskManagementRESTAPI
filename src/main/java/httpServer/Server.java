@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 import methods.Requests;
 
@@ -41,7 +42,6 @@ public class Server {
   public static void handleRequest(Socket socket) {
     try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
-
       // Read the http request
       String requestLine = in.readLine(); // reads only the first line of htrp request i.e. methods and path
       if (requestLine == null || requestLine.isEmpty()) {
@@ -84,14 +84,10 @@ public class Server {
             "wrong requests/page not found..\n";
         out.println(response);
       }
+    } catch (SocketException s) {
+      System.out.println("Socket error : " + s.getMessage());
     } catch (IOException io) {
       io.printStackTrace();
-    } finally {
-      try {
-        socket.close(); // Ensure the socket is closed
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
     }
   }
 

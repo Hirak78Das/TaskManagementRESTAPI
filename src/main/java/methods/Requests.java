@@ -51,8 +51,8 @@ public class Requests {
       // parse the requestbody from JSON to object
       boolean updated = ParseRequests.parseTaskUpdate(requestbody);
 
-      System.out.println("\nUpdate Task : " + (updated ? "Updated successfully" : "Failure"));
-
+      writer.println("\nUpdate Task : " + (updated ? "Updated successfully" : "Failure"));
+      writer.flush();
       // Respond to the client
       String response = """
           HTTP/1.1 200 OK
@@ -61,8 +61,6 @@ public class Requests {
 
           """;
       System.out.println(response);
-      writer.println("\ntask updated successfully : ");
-      writer.flush();
 
     } catch (IOException io) {
       io.printStackTrace();
@@ -85,8 +83,8 @@ public class Requests {
           %s
           """,
           foundTask.toString().length(), foundTask);
-      System.out.println(response);
-      out.println(response);
+      // System.out.println(response);
+      out.println(foundTask);
     } else {
       // Task not found
       String response = """
@@ -95,7 +93,7 @@ public class Requests {
           Content-Length: 0
 
           """;
-      System.out.println(response);
+      // System.out.println(response);
       out.println(response);
     }
     out.flush();
@@ -138,8 +136,8 @@ public class Requests {
   // Handle Get /tasks
   public static void handleGetTasks(PrintWriter out) { // we dont to catch PrintWriter exception as it is unchecked
     StringBuilder response = new StringBuilder();
-    response.append("HTTP/1.1 200 OK\r\n");
-    response.append("Content-Type: text/plain\r\n\r\n");
+    // response.append("HTTP/1.1 200 OK\r\n");
+    // response.append("Content-Type: text/plain\r\n\r\n");
 
     if (taskService.getAllTasks().isEmpty()) {
       response.append("No tasks available.\n");
@@ -163,15 +161,18 @@ public class Requests {
 
   // Handle start task
   public static void handleStartTask(PrintWriter writer, int id) {
-    int completed = taskService.startTask(id);
-    if (completed == 1) {
+    int started = taskService.startTask(id);
+    if (started == 1) {
       writer.println("\n       Task with id " + id + " has started 😃");
       writer.flush();
-    } else if (completed == 2) {
+    } else if (started == 2) {
+      writer.println("\n       Task with id " + id + " has already started ");
+      writer.flush();
+    } else if (started == 3) {
       writer.println("\n       Task with id " + id + " has already completed ");
       writer.flush();
     } else {
-      writer.println("\n ❌ wrong id. Please enter valid id to complete the task. choose from the menu");
+      writer.println("\n   ❌ wrong id. Please enter valid id to complete the task.");
       writer.flush();
     }
   }
@@ -190,7 +191,7 @@ public class Requests {
       writer.println("\n       Task with id " + id + " has already completed ");
       writer.flush();
     } else {
-      writer.println("\n ❌ wrong id. Please enter valid id to complete the task. choose from the menu");
+      writer.println("\n    ❌ wrong id. Please enter valid id to complete the task.");
       writer.flush();
     }
   }
