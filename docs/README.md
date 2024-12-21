@@ -36,7 +36,7 @@ Note: This project does not use Maven or Gradle for building the program. All de
 - **MySQL Server**
   Download from the [MySQL Installer page](https://dev.mysql.com/downloads/installer/).
 - **MySQL Connector JAR**
-  Download the MySQL Connector JAR file to enable Java to connect to the MySQL server.
+  : Download the MySQL Connector JAR file to enable Java to connect to the MySQL server.
   Download from the [MySQL Connector/J page](https://dev.mysql.com/downloads/connector/j/). Choose the "Platform Independent" version.
 
 Note: Delete the JAR file currently included in this project to avoid version conflicts and put your jar file in the lib/.
@@ -48,7 +48,7 @@ To run the application:
 - **Start the server program in one terminal window --> after starting the server program, it continuously listens for client requests and responses accordingly**
 - **Open another terminal window to run the client program, which will communicate with the server to perform task management operations via http requests.**
 
-NOTE: Both the server and client programs must be running simultaneously to enable full functionality.
+NOTE: Both the server and client programs must be running simultaneously to avoid unwanted crash.
 
 1. ##### Clone the repository
 
@@ -96,3 +96,7 @@ java -cp lib/mysql-connector-j-9.1.0.jar:src/main/java MainClient
    ```
    java -cp lib/mysql-connector-j-9.1.0.jar:src/main/java httpServer/Server
    ```
+
+   ## Demo
+
+   ![](screenshot-2024-12-21_21-47-37.png)
